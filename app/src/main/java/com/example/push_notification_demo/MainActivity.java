@@ -43,17 +43,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         push = (Button) findViewById(R.id.push);
         pushToChannel = (Button) findViewById(R.id.push_channel);
-        //add for permission
+        //ask for permission
         if (Build.VERSION.SDK_INT >= 32) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED)
                 return;
             ActivityResultLauncher<String> launcher = registerForActivityResult(
                     new ActivityResultContracts.RequestPermission(), isGranted -> {
-                        Toast.makeText(this, "push notification permission is allowed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Push notification permission is allowed", Toast.LENGTH_SHORT).show();
                     }
             );
-            launcher.launch(Manifest.permission.ACCESS_NOTIFICATION_POLICY);
+            launcher.launch(Manifest.permission.POST_NOTIFICATIONS);
         }
+
         push.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void setChannel(){
         NCMBInstallation installation = NCMBInstallation.getCurrentInstallation();
